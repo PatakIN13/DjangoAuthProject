@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %} {{ title }} {% endblock title %}
+{% block header %} {{ title }} {% endblock header %}
+{% block content %}
+
+{% for account in accounts %}
+    <a href="{% url 'account_detail' account.slug %}">{{ account.username }}</a>
+    <br>
+{% endfor %}
+
+{% endblock content %}
