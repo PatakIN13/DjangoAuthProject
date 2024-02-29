@@ -8,8 +8,13 @@
         <title>{% block title %}Default title{% endblock title %}</title>
     </head>
     <body>
-        <header><h1>{% block header %}{% endblock header %}</h1></header>
+    <div class="container">
+        <header>
+            {% include "components/nav.html" %}
+            <h1>{% block header %}{% endblock header %}</h1>
+        </header>
         <div>{% block content%}{% endblock content %}</div>
+    </div>
     </body>
     <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
 </html>
