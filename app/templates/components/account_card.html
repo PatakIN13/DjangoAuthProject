@@ -1,0 +1,26 @@
+<div class="card hoverDiv">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <figure>
+                    <img src="{{ account.avatar }}" class="img-fluid rounded-0" alt="{{ account }}">
+                </figure>
+            </div>
+            <div class="col-md-9">
+                <h5 class="card-title">
+                    {{ account }}
+                </h5>
+                <div class="card-text">
+                    <ul>
+                        <li>Никнейм: {{ account.username }}</li>
+                        {% if account.get_full_name %}
+                        <li>Имя и фамилия: {{ account.get_full_name }}</li>
+                        {% endif %}
+                        <li>Дата регистрации: {{ account.date_joined }}</li>
+                        <li>Заходил: {{ account.last_login }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

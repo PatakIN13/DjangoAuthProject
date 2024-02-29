@@ -4,8 +4,9 @@
 {% block content %}
 
 {% for account in accounts %}
-    <a href="{% url 'account_detail' account.slug %}">{{ account.username }}</a>
-    <br>
+<a class="link-opacity-50 link-underline-light m-4" href="{% url 'account_detail' slug=account.slug %}">
+        {% include 'components/account_card.html' with account=account %}
+</a>
 {% endfor %}
 
 {% endblock content %}
