@@ -1,9 +1,18 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView
 
 from apps.accounts.models import Accounts
 
 
 # Create your views here.
+
+class IndexView(TemplateView):
+    template_name = 'index.html'
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Главная страница'
+        return context
 
 
 class AccountsListView(ListView):
