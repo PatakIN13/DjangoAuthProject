@@ -8,7 +8,7 @@ from apps.accounts.models import Accounts
 
 class AccountsListView(ListView):
     model = Accounts
-    template_name = 'accounts.html'
+    template_name = 'accounts/accounts.html'
     context_object_name = 'accounts'
     ordering = ('-date_joined',)
 
@@ -20,7 +20,7 @@ class AccountsListView(ListView):
 
 class AccountsDetailView(DetailView):
     model = Accounts
-    template_name = 'account_detail.html'
+    template_name = 'accounts/account_detail.html'
     context_object_name = 'account'
 
     def get_context_data(self, **kwargs):
