@@ -21,7 +21,9 @@
                             <li>Дата рождения: {{ account.birth_date }}</li>
                             <li>О себе: {{ account.bio }}</li>
                         </ul>
-                        <a href="{% url 'account_update' %}" class="btn btn-sm btn-primary">Редактировать профиль</a>
+                        {% if account.slug == request.user.slug %}
+                            <a href="{% url 'account_update' %}" class="btn btn-sm btn-primary">Редактировать профиль</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

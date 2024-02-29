@@ -1,7 +1,12 @@
-from django.views.generic import TemplateView, ListView, DetailView, UpdateView
+from django.contrib.auth.views import LogoutView, LoginView
+from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
 from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
 
-from apps.accounts.form import AccountsUpdateForm
+from apps.accounts.forms.update import AccountsUpdateForm
+from apps.accounts.forms.register import AccountsRegisterForm
+from apps.accounts.forms.login import AccountsLoginForm
+
 from apps.accounts.models import Accounts
 
 
@@ -70,3 +75,30 @@ class AccountsUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('account_detail', kwargs={'slug': self.object.slug})
+
+
+class AccountRegisterView(SuccessMessageMixin, CreateView):
+    form_class = AccountsRegisterForm
+    template_name = 'accounts/account_register.html'
+    success_url = reverse_lazy('login')
+    success_message = 'Пользователь успешно зарегистрирован'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Регистрация на сайте'
+        return context
+
+
+class AccountLoginView(SuccessMessageMixin, LoginView):
+    form_class = AccountsLoginForm
+    template_name = 'accounts/account_login.html'
+    next_page = reverse_lazy('accounts')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Авторизация пользователя'
+        return context
+
+
+class AccountLogoutView(LogoutView):
+    next_page = 'login'

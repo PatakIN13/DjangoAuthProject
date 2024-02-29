@@ -3,19 +3,31 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'index' %}">Главня <span class="sr-only"></span></a>
             </li>
         </ul>
-        <ul class="navbar-nav">
+        <ul class="navbar-nav text-end">
+            {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="btn btn-dark me-2" type="button" href="{% url 'account_detail' slug=request.user.slug %}">Профиль</a>
+                </li>
+                <li class="nav-item">
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-primary" value="Выход" name="logout">
+                    </form>
+                </li>
+            {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="#login">Вход</a>
+                <a class="btn btn-dark me-2" type="button" href="{% url 'login' %}">Вход</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#register">Регистрация</a>
+                <a class="btn btn-primary" type="button" href="{% url 'register' %}">Регистрация</a>
             </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
