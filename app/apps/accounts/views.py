@@ -1,9 +1,9 @@
-from django.contrib.auth.views import LogoutView, LoginView
+from django.contrib.auth.views import LogoutView, LoginView, PasswordChangeView
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 
-from apps.accounts.forms.update import AccountsUpdateForm
+from apps.accounts.forms.update import AccountsUpdateForm, AccountsPasswordForm
 from apps.accounts.forms.register import AccountsRegisterForm
 from apps.accounts.forms.login import AccountsLoginForm
 
@@ -76,6 +76,20 @@ class AccountsUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('account_detail', kwargs={'slug': self.object.slug})
+
+
+class AccountPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
+    form_class = AccountsPasswordForm
+    template_name = 'accounts/account_password_change.html'
+    success_message = 'Пароль успешно изменен'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Изменение пароля: ' + self.request.user.email
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('account_detail', kwargs={'slug': self.request.user.slug})
 
 
 class AccountRegisterView(SuccessMessageMixin, CreateView):

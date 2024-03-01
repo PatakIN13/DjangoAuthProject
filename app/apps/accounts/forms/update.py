@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import SetPasswordForm
 from django import forms
 
 from apps.accounts.models import Accounts
@@ -19,3 +20,10 @@ class AccountsUpdateForm(forms.ModelForm):
         if email and Accounts.objects.filter(email=email).exclude(username=username).exists():
             raise forms.ValidationError('Email is already in use')
         return email
+
+
+class AccountsPasswordForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control', 'autocomplete': 'off'})
