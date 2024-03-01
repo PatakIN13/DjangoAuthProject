@@ -79,7 +79,7 @@ class AccountsUpdateView(UpdateView):
         return reverse_lazy('account_detail', kwargs={'slug': self.object.slug})
 
 
-class AccountPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
+class AccountsPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
     form_class = AccountsPasswordForm
     template_name = 'accounts/account_password_change.html'
     success_message = 'Пароль успешно изменен'
@@ -93,7 +93,7 @@ class AccountPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
         return reverse_lazy('account_detail', kwargs={'slug': self.request.user.slug})
 
 
-class AccountRegisterView(SuccessMessageMixin, CreateView):
+class AccountsRegisterView(SuccessMessageMixin, CreateView):
     form_class = AccountsRegisterForm
     template_name = 'accounts/account_register.html'
     success_url = reverse_lazy('login')
@@ -105,7 +105,7 @@ class AccountRegisterView(SuccessMessageMixin, CreateView):
         return context
 
 
-class AccountLoginView(SuccessMessageMixin, LoginView):
+class AccountsLoginView(SuccessMessageMixin, LoginView):
     form_class = AccountsLoginForm
     template_name = 'accounts/account_login.html'
     success_message = 'Вы успешно авторизованы'
@@ -119,5 +119,5 @@ class AccountLoginView(SuccessMessageMixin, LoginView):
         return reverse_lazy('account_detail', kwargs={'slug': self.request.user.slug})
 
 
-class AccountLogoutView(LogoutView):
+class AccountsLogoutView(LogoutView):
     next_page = 'login'
