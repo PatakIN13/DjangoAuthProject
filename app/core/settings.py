@@ -26,7 +26,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY", default="django-insecure-#&z!_@^")
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", default="localhost 127.0.0.1").split(" ")
-
+CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", default="http://localhost:1337").split(" ")
+CSRF_ALLOWED_ORIGINS = CSRF_TRUSTED_ORIGINS
+CORS_ORIGINS_WHITELIST = CSRF_TRUSTED_ORIGINS
 
 # Application definition
 
@@ -34,11 +36,14 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sites',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.accounts.apps.AccountsConfig',
 ]
+
+SITE_ID = 1
 
 AUTH_USER_MODEL = 'accounts.Accounts'
 
@@ -72,6 +77,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "localhost")
+EMAIL_PORT = os.environ.get("EMAIL_PORT", "1025")
+EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL", True)
+
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
