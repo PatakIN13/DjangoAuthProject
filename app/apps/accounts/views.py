@@ -1,8 +1,10 @@
-from django.contrib.auth.views import LogoutView, LoginView, PasswordChangeView
+from django.contrib.auth.views import LogoutView, LoginView, PasswordChangeView, PasswordResetView, \
+    PasswordResetConfirmView
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 
+from apps.accounts.forms.password import AccountsForgotPasswordForm, AccountsSetNewPasswordForm
 from apps.accounts.forms.update import AccountsUpdateForm, AccountsPasswordForm
 from apps.accounts.forms.register import AccountsRegisterForm
 from apps.accounts.forms.login import AccountsLoginForm
@@ -121,3 +123,29 @@ class AccountsLoginView(SuccessMessageMixin, LoginView):
 
 class AccountsLogoutView(LogoutView):
     next_page = 'login'
+
+
+class AccountsForgotPasswordView(SuccessMessageMixin, PasswordResetView):
+    form_class = AccountsForgotPasswordForm
+    template_name = 'accounts/account_forgot_password.html'
+    success_url = reverse_lazy('login')
+    success_message = 'Ссылка для восстановления пароля отправлена на ваш email'
+    subject_template_name = 'accounts/email/forgot_password_subject.txt'
+    email_template_name = 'accounts/email/forgot_password_email.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Восстановление пароля'
+        return context
+
+
+class AccountsSetNewPasswordConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
+    form_class = AccountsSetNewPasswordForm
+    template_name = 'accounts/account_set_new_password.html'
+    success_url = reverse_lazy('login')
+    success_message = 'Пароль успешно изменен. Можете авторизоваться на сайте.'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Изменение пароля'
+        return context
