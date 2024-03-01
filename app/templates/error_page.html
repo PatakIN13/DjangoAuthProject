@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %} {{ title }} {% endblock title %}
+{% block header %} {{ title }} {% endblock header %}
+
+{% block content %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ error_message }} | <a href="{% url 'accounts' %}"><strong>Вернуться на главную</strong></a>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endblock content %}
