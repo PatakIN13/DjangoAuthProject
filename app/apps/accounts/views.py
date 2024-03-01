@@ -42,7 +42,7 @@ class AccountsDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Профиль пользователя: ' + self.object.username
+        context['title'] = 'Профиль пользователя: ' + self.object.email
         return context
 
 
@@ -51,13 +51,14 @@ class AccountsUpdateView(UpdateView):
     form_class = AccountsUpdateForm
     template_name = 'accounts/account_update.html'
     context_object_name = 'account'
+    success_message = 'Профиль успешно изменен'
 
     def get_object(self, queryset=None):
         return self.request.user
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Редактирование профиля: ' + self.object.username
+        context['title'] = 'Редактирование профиля: ' + self.object.email
         if self.request.POST:
             context['account_form'] = AccountsUpdateForm(self.request.POST, instance=self.object)
         else:
@@ -96,7 +97,7 @@ class AccountRegisterView(SuccessMessageMixin, CreateView):
     form_class = AccountsRegisterForm
     template_name = 'accounts/account_register.html'
     success_url = reverse_lazy('login')
-    success_message = 'Пользователь успешно зарегистрирован'
+    success_message = 'Пользователь успешно зарегистрирован, теперь вы можете авторизоваться'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -107,12 +108,15 @@ class AccountRegisterView(SuccessMessageMixin, CreateView):
 class AccountLoginView(SuccessMessageMixin, LoginView):
     form_class = AccountsLoginForm
     template_name = 'accounts/account_login.html'
-    next_page = reverse_lazy('accounts')
+    success_message = 'Вы успешно авторизованы'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Авторизация пользователя'
         return context
+
+    def get_success_url(self):
+        return reverse_lazy('account_detail', kwargs={'slug': self.request.user.slug})
 
 
 class AccountLogoutView(LogoutView):
