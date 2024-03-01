@@ -4,8 +4,7 @@ from apps.accounts.views import IndexView, AccountsListView, AccountsDetailView,
 
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
-    path('accounts/', AccountsListView.as_view(), name='accounts'),
+    path('', AccountsListView.as_view(), name='accounts'),
     path('accounts/update', AccountsUpdateView.as_view(), name='account_update'),
     path('accounts/<str:slug>', AccountsDetailView.as_view(), name='account_detail'),
     path('login/', AccountLoginView.as_view(), name='login'),
