@@ -12,6 +12,7 @@ gunicorn = "^21.2.0"
 psycopg2-binary = "^2.9.9"
 pytils = "^0.4.1"
 pillow = "^10.2.0"
+faker = "^23.3.0"
 
 
 [build-system]
